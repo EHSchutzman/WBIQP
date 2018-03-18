@@ -135,7 +135,7 @@ def average(data):
             average = sum(item) / len(item)
             avs.append(average)
         else:
-            avs.append(100000.0)
+            avs.append(100000.0) #figuring out how to represent no data
     return avs
 
 
