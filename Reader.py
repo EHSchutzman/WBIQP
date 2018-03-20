@@ -73,14 +73,24 @@ def synthesize(data):
     primTSet = []
     hWActive = []
     hWTOutlet = []
+
     for item in totalVals:
-        actPow.append(item[0])
-        hwTSet.append(item[1])
-        primT.append(item[2])
-        chActive.append(item[3])
-        primTSet.append(item[4])
-        hWActive.append(item[5])
-        hWTOutlet.append(item[6])
+        if item[0] != 100000.0:
+            actPow.append(item[0])
+        if item[1] != 100000.0:
+            hwTSet.append(item[1])
+        if item[2] != 100000.0:
+            primT.append(item[2])
+        if item[3] != 100000.0:
+            chActive.append(item[3])
+        if item[4] != 100000.0:
+            primTSet.append(item[4])
+        if item[5] != 100000.0:
+            hWActive.append(item[5])
+        if item[2] != 100000.0:
+            hWTOutlet.append(item[6])
+
+        print(actPow)
     #WILL EVENTUALLY WORK CORRECTLY
 
 
@@ -135,7 +145,10 @@ def average(data):
             average = sum(item) / len(item)
             avs.append(average)
         else:
-            avs.append(100000.0) #figuring out how to represent no data
+            if len(avs) != 0:
+                avs.append(avs[-1]) #figuring out how to represent no data
+            else:
+                avs.append(100000.0)
     return avs
 
 
