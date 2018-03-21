@@ -1,11 +1,12 @@
 import csv
 import Averages as avs
+import ActPHwT as PowerOn
 import sys
 import os
-import xlrd
-import numpy as np
-import matplotlib as mat
-from matplotlib import pyplot as pl
+#import xlrd
+#import numpy as np
+#import matplotlib as mat
+#from matplotlib import pyplot as pl
 
 
 def main():
@@ -16,7 +17,8 @@ def main():
             ending = fname.split('.')[1]
             if (ending == 'csv' or ending == 'xls'):
                 l = openFile(dirName + '/' + fname)
-                avs.synthesize(l)
+                #avs.synthesize(l)
+                PowerOn.sheetcomplete(l)
             else:
                 pass
 
@@ -38,6 +40,7 @@ def openFile(filename):
                     pass
                 else:
                     data.append(row)
+                    #print(row)
 
 
 

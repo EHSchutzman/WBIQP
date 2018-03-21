@@ -37,7 +37,7 @@ def synthesize(data):
         if item[2] != 100000.0:
             hWTOutlet.append(item[6])
 
-        print(actPow)
+        #print(actPow)
     #WILL EVENTUALLY WORK CORRECTLY
 
 
