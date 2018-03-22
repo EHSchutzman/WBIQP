@@ -1,44 +1,24 @@
+import numpy as np
+
 def synthesize(data):
     """
     :param data: The data read in from the spreadsheet
     :return:
     """
+
+    dat = np.array(data)
+
+    print(dat)
     totalVals = []
     count = 0
-    for i in range(30, len(data), 60):
+    for i in range(30, len(dat), 60):
         point = data[i]
 
         count += 1
-        totalVals.append(getVals(data, i))
+        totalVals.append(getVals(dat, i))
 
 
-    #STILL WORKING ON THIS BIT
-    actPow = []
-    hwTSet = []
-    primT = []
-    chActive = []
-    primTSet = []
-    hWActive = []
-    hWTOutlet = []
 
-    for item in totalVals:
-        if item[0] != 100000.0:
-            actPow.append(item[0])
-        if item[1] != 100000.0:
-            hwTSet.append(item[1])
-        if item[2] != 100000.0:
-            primT.append(item[2])
-        if item[3] != 100000.0:
-            chActive.append(item[3])
-        if item[4] != 100000.0:
-            primTSet.append(item[4])
-        if item[5] != 100000.0:
-            hWActive.append(item[5])
-        if item[2] != 100000.0:
-            hWTOutlet.append(item[6])
-
-        #print(actPow)
-    #WILL EVENTUALLY WORK CORRECTLY
 
 
 def getVals(data, i):
@@ -58,9 +38,14 @@ def getVals(data, i):
     synthesized = [actPow, hwTSet, primTSet, chActive, primTSet, hWActive, hWTOutlet]
 
     l = []
-
+    length = len(data)
     for j in range(i - 30, i + 30):
+
+        if j == length:
+          return
         l.append(data[j])
+
+
 
     for item in l:
         if not item[1] == '':
@@ -97,3 +82,5 @@ def average(data):
             else:
                 avs.append(100000.0)
     return avs
+
+
