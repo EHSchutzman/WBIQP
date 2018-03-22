@@ -16,18 +16,23 @@ def main():
     directories = [] # directories is a 3d array containing all of the days in the collected data
     for dirName, subdirList, fileList in os.walk(rootDir):
         days = []
-        for fname in fileList:
+        for fname in sorted(fileList):
             ending = fname.split('.')[1]
             if (ending == 'csv' or ending == 'xls'):
                 dataSheet = openFile(dirName + '/' + fname) # a single day read into a list
-
                 days.append(np.array(dataSheet))
-
             else:
                 pass
         if not len(days) == 0:
             directories.append(np.array(days))
+
+
     directories = np.array(directories)
+
+    #This is where our stats things go, directories is a 3d array of [dirs [list of days]]
+
+    print(directories[0][1][14])
+
 
     return
 
