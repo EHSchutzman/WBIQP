@@ -1,28 +1,33 @@
 import csv
-
+import numpy as np
 import xlrd
 
 import Averages as avs
 import ActPHwT as PowerOn
 import sys
 import os
-#import numpy as np
+
 #import matplotlib as mat
 #from matplotlib import pyplot as pl
 
 
 def main():
-    rootDir = './RawWBData'
-    data = {}
+    rootDir = './RawWBData/'
+    directories = [] # directories is a 3d array containing all of the days in the collected data
     for dirName, subdirList, fileList in os.walk(rootDir):
+        days = []
         for fname in fileList:
             ending = fname.split('.')[1]
             if (ending == 'csv' or ending == 'xls'):
-                l = openFile(dirName + '/' + fname)
-                avs.synthesize(l)
-                # PowerOn.sheetcomplete(l)
+                dataSheet = openFile(dirName + '/' + fname) # a single day read into a list
+
+                days.append(np.array(dataSheet))
+
             else:
                 pass
+        if not len(days) == 0:
+            directories.append(np.array(days))
+    directories = np.array(directories)
 
     return
 
@@ -32,6 +37,15 @@ def openFile(filename):
     :param filename: the path of a csv or xls file that needs to be opened and read into a list
     :return: returns the csv or xls data in a list
     """
+
+    time = 0
+    actPow = None
+    hWTSet = None
+    primTSet = None
+    primT = None
+    chActive = None
+    hWTOutlet = None
+    hwActive = None
     data = []
     # print(filename)
     if (filename[-4:] == '.csv'):
@@ -39,9 +53,19 @@ def openFile(filename):
             csvReader = csv.reader(infile)
             for row in csvReader:
                 if (row[0] == 'Time'):
+
+                    actPow = row.index("ActPow")
+                    hWTSet = row.index('HwTSet')
+                    primTSet = row.index('PrimTSet')
+                    primT = row.index('PrimT')
+                    chActive = row.index('ChActive')
+                    hWTOutlet = row.index("HwTOutlet")
+                    hwActive = row.index('HwActive')
                     pass
                 else:
-                    data.append(row)
+                    newRow = [row[time],row[actPow], row[hWTSet], row[primT], row[chActive],row[primTSet] ,row[hwActive], row[hWTOutlet]]
+
+                    data.append(newRow)
                     #print(row)
 
 
@@ -53,9 +77,18 @@ def openFile(filename):
         for i in range(worksheet.nrows):
             row = worksheet.row_values(i)
             if(row[0] == 'Time'):
-                pass
+                actPow = row.index("ActPow")
+                hWTSet = row.index('HwTSet')
+                primTSet = row.index('PrimTSet')
+                primT = row.index('PrimT')
+                chActive = row.index('ChActive')
+                hWTOutlet = row.index("HwTOutlet")
+                hwActive = row.index('HwActive')
             else:
-                data.append(row)
+                newRow = [row[time], row[actPow], row[hWTSet], row[primT], row[chActive], row[primTSet], row[hwActive],
+                          row[hWTOutlet]]
+
+                data.append(newRow)
 
     return cleanData(data)
 
