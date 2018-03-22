@@ -1,32 +1,28 @@
 import csv
-import numpy as np
+
 import xlrd
 
 import Averages as avs
 import ActPHwT as PowerOn
 import sys
 import os
-
+#import numpy as np
 #import matplotlib as mat
 #from matplotlib import pyplot as pl
 
 
 def main():
-    rootDir = './RawWBData/'
-    directories = [] # directories is a 3d array containing all of the days in the collected data
+    rootDir = './RawWBData'
+    data = {}
     for dirName, subdirList, fileList in os.walk(rootDir):
-        days = []
         for fname in fileList:
             ending = fname.split('.')[1]
             if (ending == 'csv' or ending == 'xls'):
                 l = openFile(dirName + '/' + fname)
-                days.append(np.array(l))
-
+                avs.synthesize(l)
+                # PowerOn.sheetcomplete(l)
             else:
                 pass
-        if not len(days) == 0:
-            directories.append(np.array(days))
-    directories = np.array(directories)
 
     return
 
