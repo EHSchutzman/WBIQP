@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 def synthesize(data):
     """
@@ -6,19 +7,20 @@ def synthesize(data):
     :return:
     """
 
-    dat = np.array(data)
-
-    print(dat)
     totalVals = []
+
     count = 0
-    for i in range(30, len(dat), 60):
+    for i in range(30, len(data), 60):
         point = data[i]
 
-        count += 1
-        totalVals.append(getVals(dat, i))
 
+        val = getVals(data, i)
+        if val != []:
+            totalVals.append(val)
+            count += 1
 
-
+    print(type(totalVals[0][0]))
+    plotVals(totalVals, count)
 
 
 def getVals(data, i):
@@ -42,26 +44,19 @@ def getVals(data, i):
     for j in range(i - 30, i + 30):
 
         if j == length:
-          return
+            return average(synthesized)
+
+
         l.append(data[j])
 
-
-
     for item in l:
-        if not item[1] == '':
-            actPow.append(float(item[1]))
-        if not item[2] == '':
-            hwTSet.append(float(item[2]))
-        if not item[3] == '':
-            primT.append(float(item[3]))
-        if not item[4] == '':
-            chActive.append(float(item[4]))
-        if not item[5] == '':
-            primTSet.append(float(item[5]))
-        if not item[6] == '':
-            hWActive.append(float(item[6]))
-        if not item[7] == '':
-            hWTOutlet.append(float(item[7]))
+        actPow.append((item[1]))
+        hwTSet.append((item[2]))
+        primT.append((item[3]))
+        chActive.append((item[4]))
+        primTSet.append((item[5]))
+        hWActive.append((item[6]))
+        hWTOutlet.append((item[7]))
 
     return average(synthesized)
 
@@ -76,11 +71,31 @@ def average(data):
         if not len(item) == 0:
             average = sum(item) / len(item)
             avs.append(average)
-        else:
-            if len(avs) != 0 and avs[-1] != 100000.0:
-                avs.append(avs[-1]) #figuring out how to represent no data
-            else:
-                avs.append(100000.0)
     return avs
 
+
+def plotVals(data, count):
+    actPow = []
+    hwTSet = []
+    primT = []
+    chActive = []
+    primTSet = []
+    hWActive = []
+    hWTOutlet = []
+    print(len(data), type(data[0][0]))
+
+    for item in data:
+        # print(item)
+        actPow.append(item[0])
+        hwTSet.append(float(item[1]))
+        primT.append(float(item[2]))
+        chActive.append(float(item[3]))
+        primTSet.append(float(item[4]))
+        hWActive.append(float(item[5]))
+        hWTOutlet.append(float(item[6]))
+
+    plot = plt.plot(range(count), actPow)
+    plt.setp(plot, color='r')
+    plt.show()
+    return
 
