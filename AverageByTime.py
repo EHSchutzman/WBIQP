@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 def sheetcomplete(direct):
 
@@ -12,7 +13,7 @@ def sheetcomplete(direct):
     hWActive = []
     hWTOutlet = []
 
-    #all values in arrays of arrays for each sheet
+    #These arrays are Nx8300 where each row is a full day's worth of points
 
     actPowtot = []
     hwTSettot = []
@@ -22,25 +23,27 @@ def sheetcomplete(direct):
     hWActivetot = []
     hWTOutlettot = []
 
-    #sums
+    #These arrays will be 8300xN which will be the transpose of the tot matricies
 
-    sumactPow = []
-    sumhwTSet = []
-    sumprimT = []
-    sumchActive = []
-    sumprimTSet = []
-    sumhWActive = []
-    sumhWTOutlet = []
+    actPowByTime = []
+    hWTSetByTime = []
+    primTByTime = []
+    chActiveByTime = []
+    primTSetByTime = []
+    hWActiveByTime = []
+    hWTOutletByTime = []
 
-    #averages
 
-    aveactPow = []
-    avehwTSet = []
-    aveprimT = []
-    avechActive = []
-    aveprimTSet = []
-    avehWActive = []
-    avehWTOutlet = []
+    #array for averages of data points
+    actPowAvg = []
+    hWTSetAvg = []
+    primTAvg = []
+    chActiveAvg = []
+    primTSetAvg = []
+    hWActiveAvg = []
+    hWTOutletAvg = []
+
+
 
 
 
@@ -83,9 +86,31 @@ def sheetcomplete(direct):
     #The tot arrays are now Nx8300 arrays of the columns now we can sum/average the values
 
 
+    #We are making the By Time arrays by transposing the tot arrays
+    actPowByTime = [list(x) for x in zip(*actPowtot)]
+    primTByTime = [list(x) for x in zip(*primTtot)]
+    chActiveByTime = [list(x) for x in zip(*chActivetot)]
+    primTSetByTime = [list(x) for x in zip(*primTtot)]
+    hWActiveByTime = [list(x) for x in zip(*hWActivetot)]
+    hWTOutletByTime = [list(x) for x in zip(*hWTOutlettot)]
 
 
 
-    data = [aveactPow]
+    length = len(actPowByTime)
+    for i in range(length):
+        actPowAvg.append(sum(actPowByTime[i])/ length)
+        primTAvg.append(sum(primTByTime[i])/ length)
+        chActiveAvg.append(sum(chActiveByTime[i]) / length)
+        primTSetByTime.append(sum(primTSetByTime[i]) / length)
+        hWActiveAvg.append(sum(hWActiveByTime[i])/length)
+        hWTOutletAvg.append(sum(hWTOutletByTime[i])/length)
 
-    return data
+
+
+    plot = plt.plot(range(len(hWTOutletAvg)), actPowAvg)
+    plt.setp(plot, color='b')
+    plt.show()
+
+
+
+    return

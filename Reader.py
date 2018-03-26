@@ -2,8 +2,7 @@ import csv
 import numpy as np
 import xlrd
 
-import Averages as avs
-import Analysis1 as PowerOn
+import AverageByTime as abt
 import sys
 import os
 
@@ -33,7 +32,7 @@ def main():
 
 
     for directory in directories:
-        A1 = PowerOn.sheetcomplete(directory)
+        abt.sheetcomplete(directory)
 
     #print function goes here somewhere
 
