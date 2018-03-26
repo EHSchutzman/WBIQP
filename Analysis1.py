@@ -80,8 +80,7 @@ def sheetcomplete(direct):
             hWTOutlettot.append(hWTOutlet[:8300])
 
 
-    print(len(actPowtot), len(actPowtot[0]))
-
+    #The tot arrays are now Nx8300 arrays of the columns now we can sum/average the values
 
 
 
