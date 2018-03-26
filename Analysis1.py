@@ -1,3 +1,5 @@
+import numpy as np
+
 def sheetcomplete(direct):
 
     #all values in arrays
@@ -42,34 +44,47 @@ def sheetcomplete(direct):
 
 
 
+    for day in direct:
 
-    for sheet in direct:
-        for item in range(0,8550):
-            actPow.append(float(item[1]))
-            hwTSet.append(float(item[2]))
-            primT.append(float(item[3]))
-            chActive.append(float(item[4]))
-            primTSet.append(float(item[5]))
-            hWActive.append(float(item[6]))
-            hWTOutlet.append(float(item[7]))
-        actPowtot.append(actPow)
-        hwTSettot.append(hwTSet)
-        primTtot.append(primT)
-        chActivetot.append(chActive)
-        primTSettot.append(primTSet)
-        hWActivetot.append(hWActive)
-        hWTOutlettot.append(hWTOutlet)
+        if(len(day) < 8300):
+
+            continue
+        else:
+            newDay = [list(x) for x in zip(*day)]
+
+            actPow = newDay[1]
+            hwTSet = newDay[2]
+            primT = newDay[3]
+            chActive = newDay[4]
+            primTSet = newDay[5]
+            hWActive = newDay[6]
+            hWTOutlet = newDay[7]
 
 
-    for tot in actPowtot:
-            for i in range (0,8550):
-                sumactPow[i] = sumactPow[i] + tot[i]
+            for i in range(len(actPow)):
+                actPow[i] = float(actPow[i])
+                hwTSet[i] = float(hwTSet[i])
+                primT[i] = float(primT[i])
+                chActive[i] = float(chActive[i])
+                primTSet[i] = float(primTSet[i])
+                hWActive[i] = float(hWActive[i])
+                hWTOutlet[i] = float(hWTOutlet[i])
 
-    for i in range (0,8550):
-        aveactPow[i] = sumactPow[i]/8550
+
+            actPowtot.append(actPow[:8300])
+            hwTSettot.append(hwTSet[:8300])
+            primTtot.append(primT[:8300])
+            chActivetot.append(chActive[:8300])
+            primTSettot.append(primTSet[:8300])
+            hWActivetot.append(hWActive[:8300])
+            hWTOutlettot.append(hWTOutlet[:8300])
 
 
-    #copy this a million times for each variable
+    print(len(actPowtot), len(actPowtot[0]))
+
+
+
+
 
 
     data = [aveactPow]

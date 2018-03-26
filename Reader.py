@@ -33,7 +33,7 @@ def main():
 
 
     for directory in directories:
-        A1.append(PowerOn(directories[directory]))
+        A1 = PowerOn.sheetcomplete(directory)
 
     #print function goes here somewhere
 

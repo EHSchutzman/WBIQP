@@ -3,24 +3,11 @@ from matplotlib import pyplot as plt
 
 def synthesize(data):
     """
-    :param data: The data read in from the spreadsheet
+    :param data: The 3d array of all spreadsheets
     :return:
     """
 
-    totalVals = []
 
-    count = 0
-    for i in range(30, len(data), 60):
-        point = data[i]
-
-
-        val = getVals(data, i)
-        if val != []:
-            totalVals.append(val)
-            count += 1
-
-    print(type(totalVals[0][0]))
-    plotVals(totalVals, count)
 
 
 def getVals(data, i):
