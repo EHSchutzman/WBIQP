@@ -3,7 +3,7 @@ import numpy as np
 import xlrd
 
 import Averages as avs
-import ActPHwT as PowerOn
+import Analysis1 as PowerOn
 import sys
 import os
 
@@ -31,7 +31,11 @@ def main():
 
     #This is where our stats things go, directories is a 3d array of [dirs [list of days]]
 
-    print(directories[0][1][14])
+
+    for directory in directories:
+        A1.append(PowerOn(directories[directory]))
+
+    #print function goes here somewhere
 
 
     return
