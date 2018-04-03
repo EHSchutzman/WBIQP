@@ -1,78 +1,9 @@
 import numpy as np
 from matplotlib import pyplot as plt
-import statistics as st
 
+def sheetcomplete(direct):
 
-def averagesByTime(direct):
-    actPowByTime, actPowtot, primTByTime, primTtot, chActiveByTime, chActivetot, primTSetByTime, primTSettot, hWActiveByTime, hWActivetot, hWTOutletByTime, hWTOutlettot = formatData(direct)
-
-
-    # array for averages of data points
-    actPowAvg = []
-    hWTSetAvg = []
-    primTAvg = []
-    chActiveAvg = []
-    primTSetAvg = []
-    hWActiveAvg = []
-    hWTOutletAvg = []
-
-
-    length = len(actPowByTime)
-    for i in range(length):
-        actPowAvg.append(sum(actPowByTime[i])/ length)
-        primTAvg.append(sum(primTByTime[i])/ length)
-        chActiveAvg.append(sum(chActiveByTime[i]) / length)
-        primTSetByTime.append(sum(primTSetByTime[i]) / length)
-        hWActiveAvg.append(sum(hWActiveByTime[i])/length)
-        hWTOutletAvg.append(sum(hWTOutletByTime[i])/length)
-
-
-
-    # plot = plt.plot(range(len(hWTOutletAvg)), actPowAvg)
-    # plt.setp(plot, color='g')
-    # plt.title(label)
-    # plt.show()
-
-
-
-    return actPowAvg, primTAvg, chActiveAvg, primTSetAvg, hWActiveAvg, hWTOutletAvg
-
-
-
-def stdDevByTime(direct):
-    actPowByTime, actPowtot, primTByTime, primTtot, chActiveByTime, chActivetot, primTSetByTime, primTSettot, hWActiveByTime, hWActivetot, hWTOutletByTime, hWTOutlettot = formatData(direct)
-    
-    
-    # array for averages of data points
-    actPowStdDev = []
-    hWTSetStdDev = []
-    primTStdDev = []
-    chActiveStdDev = []
-    primTSetStdDev = []
-    hWActiveStdDev = []
-    hWTOutletStdDev = []
-
-    length = len(actPowByTime)
-    for i in range(length):
-        actPowStdDev.append(st.stdev(actPowByTime[i]))
-        primTStdDev.append(st.stdev(primTByTime[i]))
-        chActiveStdDev.append(st.stdev(chActiveByTime[i]))
-        primTSetByTime.append(st.stdev(primTSetByTime[i]))
-        hWActiveStdDev.append(st.stdev(hWActiveByTime[i]))
-        hWTOutletStdDev.append(st.stdev(hWTOutletByTime[i]))
-
-    # plot = plt.plot(range(len(hWTOutletStdDev)), hWTOutletStdDev)
-    # plt.setp(plot, color='b')
-    # plt.title(label)
-    # plt.show()
-
-    return actPowStdDev, primTSetStdDev, chActiveStdDev, primTSetStdDev, hWActiveStdDev, hWTOutletStdDev
-
-
-
-
-def formatData(direct):
-    # all values in arrays
+    #all values in arrays
 
     actPow = []
     hwTSet = []
@@ -82,7 +13,7 @@ def formatData(direct):
     hWActive = []
     hWTOutlet = []
 
-    # These arrays are Nx8300 where each row is a full day's worth of points
+    #These arrays are Nx8300 where each row is a full day's worth of points
 
     actPowtot = []
     hwTSettot = []
@@ -92,7 +23,7 @@ def formatData(direct):
     hWActivetot = []
     hWTOutlettot = []
 
-    # These arrays will be 8300xN which will be the transpose of the tot matricies
+    #These arrays will be 8300xN which will be the transpose of the tot matricies
 
     actPowByTime = []
     hWTSetByTime = []
@@ -103,10 +34,22 @@ def formatData(direct):
     hWTOutletByTime = []
 
 
+    #array for averages of data points
+    actPowAvg = []
+    hWTSetAvg = []
+    primTAvg = []
+    chActiveAvg = []
+    primTSetAvg = []
+    hWActiveAvg = []
+    hWTOutletAvg = []
+
+
+
+
 
     for day in direct:
 
-        if (len(day) < 8300):
+        if(len(day) < 8300):
 
             continue
         else:
@@ -120,6 +63,7 @@ def formatData(direct):
             hWActive = newDay[6]
             hWTOutlet = newDay[7]
 
+
             for i in range(len(actPow)):
                 actPow[i] = float(actPow[i])
                 hwTSet[i] = float(hwTSet[i])
@@ -129,6 +73,7 @@ def formatData(direct):
                 hWActive[i] = float(hWActive[i])
                 hWTOutlet[i] = float(hWTOutlet[i])
 
+
             actPowtot.append(actPow[:8300])
             hwTSettot.append(hwTSet[:8300])
             primTtot.append(primT[:8300])
@@ -137,9 +82,11 @@ def formatData(direct):
             hWActivetot.append(hWActive[:8300])
             hWTOutlettot.append(hWTOutlet[:8300])
 
-    # The tot arrays are now Nx8300 arrays of the columns now we can sum/average the values
 
-    # We are making the By Time arrays by transposing the tot arrays
+    #The tot arrays are now Nx8300 arrays of the columns now we can sum/average the values
+
+
+    #We are making the By Time arrays by transposing the tot arrays
     actPowByTime = [list(x) for x in zip(*actPowtot)]
     primTByTime = [list(x) for x in zip(*primTtot)]
     chActiveByTime = [list(x) for x in zip(*chActivetot)]
@@ -148,4 +95,22 @@ def formatData(direct):
     hWTOutletByTime = [list(x) for x in zip(*hWTOutlettot)]
 
 
-    return actPowByTime, actPowtot, primTByTime, primTtot, chActiveByTime, chActivetot, primTSetByTime, primTSettot, hWActiveByTime, hWActivetot,hWTOutletByTime, hWTOutlettot
+
+    length = len(actPowByTime)
+    for i in range(length):
+        actPowAvg.append(sum(actPowByTime[i])/ length)
+        primTAvg.append(sum(primTByTime[i])/ length)
+        chActiveAvg.append(sum(chActiveByTime[i]) / length)
+        primTSetByTime.append(sum(primTSetByTime[i]) / length)
+        hWActiveAvg.append(sum(hWActiveByTime[i])/length)
+        hWTOutletAvg.append(sum(hWTOutletByTime[i])/length)
+
+
+
+    plot = plt.plot(range(len(hWTOutletAvg)), actPowAvg)
+    plt.setp(plot, color='b')
+    plt.show()
+
+
+
+    return

@@ -34,6 +34,11 @@ def main():
     for directory in directories:
         abt.averagesByTime(directory)
 
+    #chooseafilegoeshere
+
+
+
+
     #print function goes here somewhere
 
 
