@@ -88,6 +88,6 @@ def chooseafile():
     else:
         print("error in code where likely the start of the string part does not have a check for the new HMO added")
 
-    finalstring = "./RawWBData/{}/{}{} {} {}.csv".format(HMO,stringstart, year, month, day)
+    finalstring = "./RawWBData/{}/{}{} {} {}.csv".format(HMO, stringstart, year, month, day)
 
     return finalstring
