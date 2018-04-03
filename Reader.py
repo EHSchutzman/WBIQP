@@ -79,6 +79,7 @@ def openFile(filename):
 
 
     else:
+        print(filename)
         workbook = xlrd.open_workbook(filename)
         worksheet = workbook.sheet_by_index(0)
         i = 1
