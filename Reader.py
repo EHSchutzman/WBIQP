@@ -2,7 +2,7 @@ import csv
 import numpy as np
 import xlrd
 
-import AverageByTime as abt
+import ByTimeFunctions as abt
 import sys
 import os
 
@@ -17,7 +17,7 @@ def main():
         days = []
         for fname in sorted(fileList):
             ending = fname.split('.')[1]
-            if (ending == 'csv' or ending == 'xls'):
+            if (ending == 'csv'):
                 dataSheet = openFile(dirName + '/' + fname) # a single day read into a list
                 days.append(np.array(dataSheet))
             else:
@@ -32,7 +32,7 @@ def main():
 
 
     for directory in directories:
-        abt.sheetcomplete(directory)
+        abt.averagesByTime(directory)
 
     #chooseafilegoeshere
 
