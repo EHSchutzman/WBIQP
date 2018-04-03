@@ -105,6 +105,8 @@ def sheetcomplete(direct):
         hWActiveAvg.append(sum(hWActiveByTime[i])/length)
         hWTOutletAvg.append(sum(hWTOutletByTime[i])/length)
 
+    
+
 
 
     plot = plt.plot(range(len(hWTOutletAvg)), actPowAvg)
