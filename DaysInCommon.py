@@ -6,25 +6,12 @@ from matplotlib import pyplot as plt
 import numpy as np
 import pandas
 
+#TODO: Also try to graph all of the data from a day, rather than averaging values, look into just plotting 5 days as lines
 
 def findDaysInCommon():
-    dates = {}
-    fiveDays = {}
-    rootDir = './RawWBData/'
-    for dirName, subdirList, fileList in os.walk(rootDir):
-        for fname in sorted(fileList):
-            ending = fname.split('.')[1]
-            if (ending == 'csv'):
-                date = fname.split('_')[-1]
-                newDate = date.split('.')[0]
 
-
-                if newDate not in dates.keys():
-                    dates.update({newDate: [1, dirName + "/" + fname]})
-                else:
-                    dates[newDate][0] += 1
-                    dates[newDate].append(dirName + '/' + fname)
-
+        dates = makeFilesDictionary()
+        fiveDays = {}
         for item in dates:
             if dates[item][0] >= 5:
                 l = []
@@ -34,17 +21,12 @@ def findDaysInCommon():
                     l.append(day)
                 fiveDays.update({item: l})
 
-
-
-        for item in fiveDays:
-            print(item, len(fiveDays[item]))
-
         for day in fiveDays:
             getDataForFiveDays(day, fiveDays[day])
 
 def getDataForFiveDays(date , data):
 
-    actPowStdDev, primTSetStdDev, chActiveStdDev, primTSetStdDev, hWActiveStdDev, hWTOutletStdDev = a.stdDevByTime(data)
+    actPowStdDev, primTStdDev, chActiveStdDev, primTSetStdDev, hWActiveStdDev, hWTOutletStdDev = a.stdDevByTime(data)
     actPowAvg, primTAvg, chActiveAvg, primTSetAvg, hWActiveAvg, hWTOutletAvg = a.averagesByTime(data)
 
     # xAxis = range(len(hWTOutletStdDev))
@@ -60,7 +42,7 @@ def getDataForFiveDays(date , data):
     times = []
     for time in pandas.date_range('00:00', None, periods=len(chActiveStdDev), freq='10S'):
         times.append(str(time).split(' ')[-1])
-    sampleAndGraph(times, actPowAvg)
+    sampleAndGraph([actPowAvg, primTAvg], times, ['ActPowAvg', 'PrimTAvg'], date)
 
     # # print(np.array(x).shape, np.array(actPowStdDev).shape)
     # # print(np.array(x).shape == np.array(actPowStdDev).shape)
@@ -74,14 +56,33 @@ def getDataForFiveDays(date , data):
     # plt.show()
     return
 
-def sampleAndGraph(data, times):
+def sampleAndGraph(data, times, legend, date):
 
-    plt.plot(times[::50], data[::50])
+    for item in data:
+        plt.plot(times[::50], item[::50])
+
+    plt.legend(legend, loc='upper left')
+    plt.title(date)
     plt.show()
 
 
+def makeFilesDictionary():
+    dates = {}
+    rootDir = './RawWBData/'
+    for dirName, subdirList, fileList in os.walk(rootDir):
+        for fname in sorted(fileList):
+            ending = fname.split('.')[1]
+            if (ending == 'csv'):
+                date = fname.split('_')[-1]
+                newDate = date.split('.')[0]
 
 
+                if newDate not in dates.keys():
+                    dates.update({newDate: [1, dirName + "/" + fname]})
+                else:
+                    dates[newDate][0] += 1
+                    dates[newDate].append(dirName + '/' + fname)
+    return dates
 
 if __name__ == '__main__':
     findDaysInCommon()

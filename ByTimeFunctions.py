@@ -1,5 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
+import statistics as st
 
 
 def averagesByTime(direct):
@@ -59,7 +60,7 @@ def stdDevByTime(direct):
     # plt.title(label)
     # plt.show()
 
-    return actPowStdDev, primTSetStdDev, chActiveStdDev, primTSetStdDev, hWActiveStdDev, hWTOutletStdDev
+    return actPowStdDev, primTStdDev, chActiveStdDev, primTSetStdDev, hWActiveStdDev, hWTOutletStdDev
 
 
 def formatData(direct):
