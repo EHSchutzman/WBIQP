@@ -4,6 +4,7 @@ import Reader as r
 import ByTimeFunctions as a
 from matplotlib import pyplot as plt
 import numpy as np
+import pandas
 
 
 def findDaysInCommon():
@@ -46,31 +47,16 @@ def getDataForFiveDays(date , data):
     actPowStdDev, primTSetStdDev, chActiveStdDev, primTSetStdDev, hWActiveStdDev, hWTOutletStdDev = a.stdDevByTime(data)
     actPowAvg, primTAvg, chActiveAvg, primTSetAvg, hWActiveAvg, hWTOutletAvg = a.averagesByTime(data)
 
-    # xAxis = range(len(hWTOutletStdDev))
-    # plt.plot(xAxis, actPowAvg)
-    # plt.plot(xAxis, actPowStdDev)
-    #
-    #
-    # # plt.setp(plot, color='g')
-    # plt.title(date)
-    # plt.show()
 
-    x = range(len(chActiveStdDev))
-
-    # print(np.array(x).shape, np.array(actPowStdDev).shape)
-    # print(np.array(x).shape == np.array(actPowStdDev).shape)
-    plt.plot(x, actPowStdDev)
-    # plt.plot(x, primTSetStdDev)
-    # plt.plot(x, chActiveStdDev)
-
-
-    # plt.legend(['actPowStdDev', 'primTSetStdDev', 'chActiveStdDev'], loc='upper left')
-    #
-    plt.show()
     return
 
 
+def makeSamples(data):
 
+    plt.plot(data[::50])
+
+
+    return
 
 
 if __name__ == '__main__':
