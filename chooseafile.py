@@ -1,11 +1,14 @@
+from matplotlib import pyplot as plt
+import os
+
 # The following code takes one day of data of user choice and analyzes it.
 
 def chooseafile():
     # If more HMOS are recorded from, add their name below.
     HMOlist = ["25_McIntyre", "2_Himbleton", "37_Woodstock", "50_Bleinheim", "8_Bozward"]
     # If more data is recorded in the future, add the year, month number below.
-    yearlist = ["2017", "2018"]
-    monthlist = ["11", "12", "01", "02"]
+    yearlist = ["2017", "2018", "2019"]
+    monthlist = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",]
 
     hmocheck = 1
 
@@ -27,7 +30,7 @@ def chooseafile():
         if year in yearlist:
             yearcheck = 0
         else:
-            print("The entered year name is formatted wrong or is not included in the data.")
+            print("The entered year name is formatted wrong or not a valid year")
             yearcheck = 1
 
     monthcheck = 1
@@ -37,7 +40,7 @@ def chooseafile():
         if month in monthlist:
             monthcheck = 0
         else:
-            print("The month entered is not in the data or not a month number")
+            print("The month entered is not a month number or not entered correctly")
             monthcheck = 1
 
     daycheck = 1
@@ -92,13 +95,52 @@ def chooseafile():
 
     return finalstring
 
-def test():
-    rootDir = './RawWBData/'
+def doesitexist(finalstring, filelist):
+    if finalstring in filelist:
+        print("Attempting to plot desired day")
+        result = 1
+    else:
+        print("The file requested does not exist!")
+        result = 0
+    return result
 
+
+def makelist():
     rootDir = './RawWBData/'
-    directories = []  # directories is a 3d array containing all of the days in the collected data
+    filenamelist = []  # directories is a 3d array containing all of the days in the collected data
     for dirName, subdirList, fileList in os.walk(rootDir):
-        print(dirName)
-        print("\t", subdirList)
         for fname in sorted(fileList):
-            print("\t\t",dirName + "/" + fname)
+            filenamelist.append(rootDir + "/" + dirName + "/" + fname)
+
+    return 0
+
+def onedayplot(day):
+
+    actPow = []
+    hwTSet = []
+    primT = []
+    chActive = []
+    primTSet = []
+    hWActive = []
+    hWTOutlet = []
+
+    if len(day) <= 8300:
+        for item in day:
+            actPow.append((item[1]))
+            hwTSet.append((item[2]))
+            primT.append((item[3]))
+            chActive.append((item[4]))
+            primTSet.append((item[5]))
+            hWActive.append((item[6]))
+            hWTOutlet.append((item[7]))
+
+            plot = plt.plot(range(0, 8300), actPow)
+            plt.setp(plot, color='g')
+            plt.title("plot of single day")
+            plt.show()
+    else:
+        print("This day exists, but does not have enough data points to be considered for plotting")
+
+            #put more plots of interest here!
+
+    return 0
