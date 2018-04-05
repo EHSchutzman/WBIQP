@@ -35,14 +35,6 @@ def main():
     for directory in directories:
         abt.averagesByTime(directory)
 
-    allfiles = caf.makelist()
-
-    requestedpath = caf.chooseafile()
-    answer = caf.doesitexist(requestedpath, allfiles)
-    if answer == 1:
-        caf.onedayplot(openFile(requestedpath))
-    else:
-        print("file does not exist!")
 
 
     return

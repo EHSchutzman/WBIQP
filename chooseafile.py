@@ -1,5 +1,6 @@
 from matplotlib import pyplot as plt
 import os
+import Reader as read
 
 # The following code takes one day of data of user choice and analyzes it.
 
@@ -92,15 +93,18 @@ def chooseafile():
         print("error in code where likely the start of the string part does not have a check for the new HMO added")
 
     finalstring = "./RawWBData/{}/{}{} {} {}.csv".format(HMO, stringstart, year, month, day)
+    print(finalstring)
 
     return finalstring
 
 def doesitexist(finalstring, filelist):
+    print(finalstring, len(filelist))
+
     if finalstring in filelist:
         print("Attempting to plot desired day")
-        result = 1
+        result = "y"
     else:
-        result = 0
+        result = "n"
     return result
 
 
@@ -109,9 +113,10 @@ def makelist():
     filenamelist = []  # directories is a 3d array containing all of the days in the collected data
     for dirName, subdirList, fileList in os.walk(rootDir):
         for fname in sorted(fileList):
-            filenamelist.append(rootDir + "/" + dirName + "/" + fname)
+            print("{}/{}".format(dirName, fname))
+            filenamelist.append("{}/{}/{}".format(rootDir, dirName, fname))
 
-    return 0
+    return filenamelist
 
 def onedayplot(day):
 
@@ -123,8 +128,10 @@ def onedayplot(day):
     hWActive = []
     hWTOutlet = []
 
-    if len(day) <= 8300:
-        for item in day:
+    changeday = day[:8300]
+
+    if len(day) >= 8300:
+        for item in changeday:
             actPow.append((item[1]))
             hwTSet.append((item[2]))
             primT.append((item[3]))
@@ -132,14 +139,30 @@ def onedayplot(day):
             primTSet.append((item[5]))
             hWActive.append((item[6]))
             hWTOutlet.append((item[7]))
-
-            plot = plt.plot(range(0, 8300), actPow)
-            plt.setp(plot, color='g')
-            plt.title("plot of single day")
-            plt.show()
+        plot = plt.plot(range(0, 8300), primTSet)
+        plt.setp(plot, color='g')
+        plt.title("plot of single day")
+        plt.show()
     else:
         print("This day exists, but does not have enough data points to be considered for plotting")
 
             #put more plots of interest here!
 
-    return 0
+    return
+
+
+def chooserun():
+    allfiles = makelist()
+
+    requestedpath = chooseafile()
+    answer = doesitexist(requestedpath, allfiles)
+    if answer == "y":
+        onedayplot(read.openFile(requestedpath))
+    else:
+        print("file does not exist!")
+
+    return
+
+
+if __name__ == '__main__':
+    chooserun()
