@@ -124,30 +124,20 @@ def makelist():
 
 
 
-def onedayplot(day):
-
-    actPow = []
-    hwTSet = []
-    primT = []
-    chActive = []
-    primTSet = []
-    hWActive = []
-    hWTOutlet = []
+def onedayplot(day, path):
 
     changeday = day[:8300]
 
     if len(day) >= 8300:
-        for item in changeday:
-            actPow.append((item[1]))
-            hwTSet.append((item[2]))
-            primT.append((item[3]))
-            chActive.append((item[4]))
-            primTSet.append((item[5]))
-            hWActive.append((item[6]))
-            hWTOutlet.append((item[7]))
-        plot = plt.plot(range(0, 8300), primTSet)
+        plotchosen = "wrong"
+        while plotchosen == "wrong":
+            print("actPow | hwTSet | primT | chActive | primTSet | hWActive | hWTOutlet")
+            plotchoose = input("Which variable do you want to plot?")
+            plotchosen = appender(plotchoose, changeday)
+
+        plot = plt.plot(range(0, 8300), plotchosen)
         plt.setp(plot, color='g')
-        plt.title("plot of single day")
+        plt.title(plotchoose + " " + path[39:49])
         plt.show()
     else:
         print("This day exists, but does not have enough data points to be considered for plotting")
@@ -163,11 +153,56 @@ def chooserun():
     requestedpath = chooseafile()
     answer = doesitexist(requestedpath, allfiles)
     if answer == "y":
-        onedayplot(read.openFile(requestedpath))
+        onedayplot(read.openFile(requestedpath), requestedpath)
     else:
         print("file does not exist!")
 
     return
+
+def appender(plotchoose, changeday):
+
+    actPow = []
+    hwTSet = []
+    primT = []
+    chActive = []
+    primTSet = []
+    hWActive = []
+    hWTOutlet = []
+
+    for item in changeday:
+        if plotchoose == "actPow":
+            actPow.append((item[1]))
+        elif plotchoose == "hwTSet":
+            hwTSet.append((item[2]))
+        elif plotchoose == "primT":
+            primT.append((item[3]))
+        elif plotchoose == "chActive":
+            chActive.append((item[4]))
+        elif plotchoose == "primTSet":
+            primTSet.append((item[5]))
+        elif plotchoose == "hWActive":
+            hWActive.append((item[6]))
+        elif plotchoose == "hWTOutlet":
+            hWTOutlet.append((item[7]))
+        else:
+            print("that is not a variable!")
+            plotchosen = "wrong"
+    if plotchoose == "actPow":
+        plotchosen = actPow
+    elif plotchoose == "hwTSet":
+        plotchosen = hwTSet
+    elif plotchoose == "primT":
+        plotchosen = primT
+    elif plotchoose == "chActive":
+        plotchosen = chActive
+    elif plotchoose == "primTSet":
+        plotchosen = primTSet
+    elif plotchoose == "hWActive":
+        plotchosen = hWActive
+    elif plotchoose == "hWTOutlet":
+        plotchosen = hWTOutlet
+
+    return plotchosen
 
 
 if __name__ == '__main__':
