@@ -5,6 +5,7 @@ import xlrd
 import ByTimeFunctions as abt
 import sys
 import os
+import chooseafile as caf
 
 #import matplotlib as mat
 #from matplotlib import pyplot as pl
@@ -34,12 +35,14 @@ def main():
     for directory in directories:
         abt.averagesByTime(directory)
 
-    #chooseafilegoeshere
+    allfiles = caf.makelist()
 
-
-
-
-    #print function goes here somewhere
+    requestedpath = caf.chooseafile()
+    answer = caf.doesitexist(requestedpath, allfiles)
+    if answer == 1:
+        caf.onedayplot(openFile(requestedpath))
+    else:
+        print("file does not exist!")
 
 
     return
@@ -154,9 +157,6 @@ def cleanData(data):
             item[7] = hWTOutlet
 
     return data
-
-
-
 
 
 if __name__ == '__main__':

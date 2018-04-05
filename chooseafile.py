@@ -100,7 +100,6 @@ def doesitexist(finalstring, filelist):
         print("Attempting to plot desired day")
         result = 1
     else:
-        print("The file requested does not exist!")
         result = 0
     return result
 
