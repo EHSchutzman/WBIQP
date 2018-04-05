@@ -93,19 +93,20 @@ def chooseafile():
         print("error in code where likely the start of the string part does not have a check for the new HMO added")
 
     finalstring = "./RawWBData/{}/{}{} {} {}.csv".format(HMO, stringstart, year, month, day)
-    print(finalstring)
+    # print(finalstring)
 
     return finalstring
 
 def doesitexist(finalstring, filelist):
-    print(finalstring, len(filelist))
+    print(type(finalstring), type(filelist[0]), finalstring in filelist)
+    for file in filelist:
+        # print(file, finalstring)
+        if file == finalstring:
+            print("Attempting to plot desired day")
+            return "y"
 
-    if finalstring in filelist:
-        print("Attempting to plot desired day")
-        result = "y"
-    else:
-        result = "n"
-    return result
+    print("No file found")
+    return "n"
 
 
 def makelist():
@@ -113,10 +114,15 @@ def makelist():
     filenamelist = []  # directories is a 3d array containing all of the days in the collected data
     for dirName, subdirList, fileList in os.walk(rootDir):
         for fname in sorted(fileList):
-            print("{}/{}".format(dirName, fname))
-            filenamelist.append("{}/{}/{}".format(rootDir, dirName, fname))
+
+            # print("{}/{}".format(dirName, fname))
+
+            filenamelist.append("{}/{}".format(dirName, fname))
 
     return filenamelist
+
+
+
 
 def onedayplot(day):
 
