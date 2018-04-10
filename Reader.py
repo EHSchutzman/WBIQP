@@ -1,4 +1,6 @@
 import csv
+
+import datetime
 import numpy as np
 import xlrd
 
@@ -151,5 +153,16 @@ def cleanData(data):
     return data
 
 
+
+def makeTimesForGraph(length):
+    times = [datetime.datetime.now() + datetime.timedelta(hours=i) for i in range(24)]
+
+    return times
+
+
+
+
+
 if __name__ == '__main__':
     main()
+    # makeTimesForGraph(8300)

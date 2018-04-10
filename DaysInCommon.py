@@ -59,10 +59,11 @@ def getDataForFiveDays(date , data):
 def sampleAndGraph(data, times, legend, date):
 
     for item in data:
-        plt.plot(times[::50], item[::50])
+        plt.plot(range(0,8300, 50), item[::50])
 
     plt.legend(legend, loc='upper left')
     plt.title(date)
+    plt.xlabel('Time', fontsize=12)
     plt.show()
 
 

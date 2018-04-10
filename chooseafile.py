@@ -9,7 +9,7 @@ def chooseafile():
     HMOlist = ["25_McIntyre", "2_Himbleton", "37_Woodstock", "50_Bleinheim", "8_Bozward"]
     # If more data is recorded in the future, add the year, month number below.
     yearlist = ["2017", "2018", "2019"]
-    monthlist = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",]
+    monthlist = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 
     hmocheck = 1
 
@@ -127,17 +127,21 @@ def makelist():
 def onedayplot(day, path):
 
     changeday = day[:8300]
+    print(len(changeday))
+    times = read.makeTimesForGraph(len(changeday))
 
     if len(day) >= 8300:
         plotchosen = "wrong"
         while plotchosen == "wrong":
             print("actPow | hwTSet | primT | chActive | primTSet | hWActive | hWTOutlet")
-            plotchoose = input("Which variable do you want to plot?")
+            plotchoose = input("Which variable do you want to plot? For multiple variables please separate by commas")
+            plotchoose = list(plotchoose)
             plotchosen = appender(plotchoose, changeday)
 
-        plot = plt.plot(range(0, 8300), plotchosen)
+        plot = plt.plot(range(len(changeday)), plotchosen)
         plt.setp(plot, color='g')
         plt.title(plotchoose + " " + path[39:49])
+        plt.gcf().autofmt_xdate()
         plt.show()
     else:
         print("This day exists, but does not have enough data points to be considered for plotting")
