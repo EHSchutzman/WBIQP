@@ -16,8 +16,8 @@ def averagesByTime(direct):
     hWActiveAvg = []
     hWTOutletAvg = []
 
-    length = len(actPowByTime)
-    for i in range(length):
+    length = len(actPowByTime[0])
+    for i in range(len(actPowByTime)):
         actPowAvg.append(sum(actPowByTime[i]) / length)
         primTAvg.append(sum(primTByTime[i]) / length)
         chActiveAvg.append(sum(chActiveByTime[i]) / length)
@@ -46,8 +46,8 @@ def stdDevByTime(direct):
     hWActiveStdDev = []
     hWTOutletStdDev = []
 
-    length = len(actPowByTime)
-    for i in range(length):
+    length = len(actPowByTime[0])
+    for i in range(len(actPowByTime)):
         actPowStdDev.append(st.stdev(actPowByTime[i]))
         primTStdDev.append(st.stdev(primTByTime[i]))
         chActiveStdDev.append(st.stdev(chActiveByTime[i]))

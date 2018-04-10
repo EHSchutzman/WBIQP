@@ -3,7 +3,7 @@ import csv
 import datetime
 import numpy as np
 import xlrd
-
+from matplotlib import pyplot as plt
 import ByTimeFunctions as abt
 import sys
 import os
@@ -35,9 +35,10 @@ def main():
 
 
     for directory in directories:
-        abt.averagesByTime(directory)
+        actPowAvg, primTAvg, chActiveAvg, primTSetAvg, hWActiveAvg, hWTOutletAvg =  abt.averagesByTime(directory)
 
-
+        plt.plot(range(len(chActiveAvg)),chActiveAvg)
+        plt.show()
 
     return
 

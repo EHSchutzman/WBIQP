@@ -11,6 +11,7 @@ import pandas
 def findDaysInCommon():
 
         dates = makeFilesDictionary()
+
         fiveDays = {}
         for item in dates:
             if dates[item][0] >= 5:
@@ -25,9 +26,10 @@ def findDaysInCommon():
             getDataForFiveDays(day, fiveDays[day])
 
 def getDataForFiveDays(date , data):
-
     actPowStdDev, primTStdDev, chActiveStdDev, primTSetStdDev, hWActiveStdDev, hWTOutletStdDev = a.stdDevByTime(data)
     actPowAvg, primTAvg, chActiveAvg, primTSetAvg, hWActiveAvg, hWTOutletAvg = a.averagesByTime(data)
+
+
 
     # xAxis = range(len(hWTOutletStdDev))
     # plt.plot(xAxis, actPowAvg)
@@ -37,8 +39,8 @@ def getDataForFiveDays(date , data):
     # # plt.setp(plot, color='g')
     # plt.title(date)
     # plt.show()
-
-    x = range(len(chActiveStdDev))
+    #
+    # x = range(len(chActiveStdDev))
     times = []
     for time in pandas.date_range('00:00', None, periods=len(chActiveStdDev), freq='10S'):
         times.append(str(time).split(' ')[-1])
