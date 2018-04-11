@@ -37,7 +37,8 @@ def main():
     for directory in directories:
         actPowAvg, primTAvg, chActiveAvg, primTSetAvg, hWActiveAvg, hWTOutletAvg =  abt.averagesByTime(directory)
 
-        plt.plot(range(len(chActiveAvg)),chActiveAvg)
+        plt.plot(range(len(chActiveAvg)),[primTAvg, actPowAvg])
+
         plt.show()
 
     return
