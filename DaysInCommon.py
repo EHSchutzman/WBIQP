@@ -24,7 +24,7 @@ def findDaysInCommon():
 
         for day in fiveDays:
             getDataForFiveDays(day, fiveDays[day])
-
+        print(len(fiveDays.keys()))
 def getDataForFiveDays(date , data):
     actPowStdDev, primTStdDev, chActiveStdDev, primTSetStdDev, hWActiveStdDev, hWTOutletStdDev = a.stdDevByTime(data)
     actPowAvg, primTAvg, chActiveAvg, primTSetAvg, hWActiveAvg, hWTOutletAvg = a.averagesByTime(data)
@@ -60,12 +60,34 @@ def getDataForFiveDays(date , data):
 
 def sampleAndGraph(data, times, legend, date):
 
+
+    fig = plt.figure()
+    ax1 = fig.add_subplot(111)
     for item in data:
-        plt.plot(range(0,8300, 50), item[::50])
+        ax1.plot(times, item)
+
 
     plt.legend(legend, loc='upper left')
     plt.title(date)
     plt.xlabel('Time', fontsize=12)
+
+
+
+    plt.setp(ax1.get_xticklabels(), visible=False)
+    plt.setp(ax1.get_xticklabels()[::700], visible=True)
+    plt.xticks(fontsize=10, rotation=90)
+    for tic in ax1.xaxis.get_major_ticks():
+        if (ax1.xaxis.get_major_ticks().index(tic) % 700 == 0):
+            continue
+        else:
+            tic.tick1On = tic.tick2On = False
+            tic.label1On = tic.label2On = False
+
+    plt.gcf().subplots_adjust(bottom=0.23)
+
+    plt.xlabel("Time of Day", labelpad=10)
+
+
     plt.show()
 
 
