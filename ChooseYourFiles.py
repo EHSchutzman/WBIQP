@@ -2,6 +2,7 @@ import os
 import sys
 import difflib as df
 import Reader as rd
+import Graphing as g
 
 
 
@@ -12,7 +13,9 @@ def main(args):
     variables = {"actPow": "Actual Power", "hwTSet": "Hot Water Temp Setpoint", "primT" : "Primary Temp",
                  "chActive": "Central Heating Active", "primTSet": "Primary Temp Setpoint",
                  "hWActive": "Hot Water Active", "hWTOutlet": "Hot Water Outlet Temp"}
-
+    columns = {"actPow": 1, "hwTSet": 2, "primT": 3,
+                 "chActive": 4, "primTSet": 5,
+                 "hWActive": 6, "hWTOutlet": 7}
     dates = getFilesAsDict()
 
     file, vars, house, date = getDateInformation(dates, variables)
@@ -20,23 +23,74 @@ def main(args):
     houses.append(house)
     datesSelected.append(date)
 
+
     while checkForMoreDates():
         newFile, _, house, date = getDateInformation(dates, variables, True)
         houses.append(house)
         datesSelected.append(date)
         files.append(newFile)
 
+    multiplePlots = False
+    if len(vars) > 1:
+        multiplePlots = checkMultiplePlots()
+
+
 
     #graph the stufffffffffff
 
-    print(len(files), vars, houses, datesSelected)
+    print(len(files[0][0]), vars, houses, datesSelected)
+    axis = []
     for item in files:
-        getAxis(item, vars)
-
-def getAxis(day, vars):
+        axis.append(getAxis(item, vars, columns))
 
 
-    return
+    #axis is a list of length datesSelected by length vars by length of file
+
+
+
+
+
+
+
+
+
+
+
+
+    print(len(axis), len(axis[0]))
+    plots = axis[0]
+
+    for i in range(len(axis)):
+        if not multiplePlots:
+            legend = [variables[var] for var in vars]
+            g.makeGraph(plots,vars, legend, date)
+        else:
+            data = [list(x) for x in zip(*axis)]
+            print(len(data), len(data[0]), len(data[0][0]))
+
+
+
+def checkMultiplePlots():
+    val = input("Do you want to plot each variable on a different plot?: (Y/N)")
+    if val.lower() == 'y':
+        print("Plotting on separate plots")
+        return True
+    else:
+
+        return False
+
+def getAxis(day, vars, columns):
+
+    indecies = []
+    data = []
+    for var in vars:
+        indecies.append(columns[var])
+
+    for index in indecies:
+        data.append([x[index] for x in day])
+
+
+    return data
 
 
 
@@ -48,6 +102,7 @@ def checkForMoreDates():
         print("Adding more dates:")
         return True
     else:
+
         return False
 
 

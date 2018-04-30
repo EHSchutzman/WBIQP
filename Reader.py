@@ -2,6 +2,7 @@ import csv
 
 import datetime
 import numpy as np
+import pandas
 import xlrd
 from matplotlib import pyplot as plt
 import ByTimeFunctions as abt
@@ -37,11 +38,35 @@ def main():
     for directory in directories:
         actPowAvg, primTAvg, chActiveAvg, primTSetAvg, hWActiveAvg, hWTOutletAvg =  abt.averagesByTime(directory)
 
-        plt.plot(range(len(chActiveAvg)),chActiveAvg)
-        plt.legend(['Central Heating Avg'], loc='lower right')
+        times = []
+        for time in pandas.date_range('00:00', None, periods=8300, freq='10S'):
+            times.append(str(time).split(' ')[-1])
+
+        fig = plt.figure()
+
+        ax1 = fig.add_subplot(111)
+
+        ax1.plot(times, chActiveAvg)
+
+
+        plt.setp(ax1.get_xticklabels(), visible=False)
+        plt.setp(ax1.get_xticklabels()[::700], visible=True)
+        plt.xticks(fontsize=10, rotation=90)
+        for tic in ax1.xaxis.get_major_ticks():
+            if (ax1.xaxis.get_major_ticks().index(tic) % 700 == 0):
+                continue
+            else:
+                tic.tick1On = tic.tick2On = False
+                tic.label1On = tic.label2On = False
+
+        plt.gcf().subplots_adjust(bottom=0.23)
+
+        plt.xlabel("Time of Day", labelpad=10)
+        plt.legend(['Central Heating Active'], loc='lower right')
+
+        plt.title("Central Heating Active Across Time")
 
         plt.show()
-
     return
 
 
@@ -110,9 +135,9 @@ def openFile(filename):
 def cleanData(data):
     actPow = 0
     hwTSet = 0
-    primT = 0
+    primT = 5
     chActive = 0
-    primTSet = 0
+    primTSet = 5
     hWActive = 0
     hWTOutlet = 0
     
@@ -127,7 +152,7 @@ def cleanData(data):
             item[2] = float(item[2])
         else:
             item[2] = hwTSet
-        if not item[3] == '':
+        if not item[3] == '' and item[3] != '0':
             primT = float(item[3])
             item[3] = float(item[3])
         else:
@@ -137,7 +162,7 @@ def cleanData(data):
             item[4] = float(item[4])
         else:
             item[4] = chActive
-        if not item[5] == '':
+        if not item[5] == '' and item[5] != '0':
             primTSet = float(item[5])
             item[5] = float(item[5])
         else:

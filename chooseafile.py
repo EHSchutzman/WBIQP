@@ -1,3 +1,4 @@
+import pandas
 from matplotlib import pyplot as plt
 import os
 import Reader as read
@@ -128,21 +129,43 @@ def onedayplot(day, path):
 
     changeday = day[:8300]
     print(len(changeday))
-    times = read.makeTimesForGraph(len(changeday))
+    times = []
+    for time in pandas.date_range('00:00', None, periods=8300, freq='10S'):
+        times.append(str(time).split(' ')[-1])
+
 
     if len(day) >= 8300:
         plotchosen = "wrong"
         while plotchosen == "wrong":
             print("actPow | hwTSet | primT | chActive | primTSet | hWActive | hWTOutlet")
             plotchoose = input("Which variable do you want to plot? For multiple variables please separate by commas")
-            plotchoose = list(plotchoose)
+            plotchoose = plotchoose
             plotchosen = appender(plotchoose, changeday)
 
-        plot = plt.plot(range(len(changeday)), plotchosen)
-        plt.setp(plot, color='g')
+        fig = plt.figure()
+
+        ax1 = fig.add_subplot(111)
+
+        ax1.plot(times, plotchosen)
+
+        plt.setp(ax1.get_xticklabels(), visible=False)
+        plt.setp(ax1.get_xticklabels()[::700], visible=True)
+        plt.xticks(fontsize=10, rotation=90)
+        for tic in ax1.xaxis.get_major_ticks():
+            if (ax1.xaxis.get_major_ticks().index(tic) % 700 == 0):
+                continue
+            else:
+                tic.tick1On = tic.tick2On = False
+                tic.label1On = tic.label2On = False
+
+        plt.gcf().subplots_adjust(bottom=0.23)
+
+        plt.xlabel("Time of Day", labelpad=10)
+
+
         plt.title(plotchoose + " " + path[39:49])
-        plt.gcf().autofmt_xdate()
         plt.show()
+
     else:
         print("This day exists, but does not have enough data points to be considered for plotting")
 

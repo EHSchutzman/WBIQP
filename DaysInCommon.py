@@ -44,7 +44,7 @@ def getDataForFiveDays(date , data):
     times = []
     for time in pandas.date_range('00:00', None, periods=len(chActiveStdDev), freq='10S'):
         times.append(str(time).split(' ')[-1])
-    sampleAndGraph([actPowAvg, primTAvg], times, ['ActPowAvg', 'PrimTAvg'], date)
+    sampleAndGraph([chActiveAvg], times, ['CHActiveAvg'], date)
 
     # # print(np.array(x).shape, np.array(actPowStdDev).shape)
     # # print(np.array(x).shape == np.array(actPowStdDev).shape)
